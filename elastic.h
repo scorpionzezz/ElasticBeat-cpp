@@ -359,7 +359,7 @@ namespace beat {
 					return doRequest(url, HTTPVerb::HEAD, d) == 200;
 				}
 
-				bool createIndex(const string & index)
+				bool createIndex(const string & index, const string & mappings)
 				{
 					/*
 					 * curl -XPUT 'localhost:9200/twitter2?pretty' -H 'Content-Type: application/json' -d'{ "settings" : { "index" : { } } }'
@@ -395,7 +395,7 @@ namespace beat {
 					}
 
 					// Prepare parameters
-					const string BASE_SETTINGS = "{ \"settings\" : { \"index\" : { } } }";
+					const string BASE_SETTINGS = mappings == "" ? "{ \"settings\" : { \"index\" : { } } }" : "{ "+mappings+" ,\"settings\" : { \"index\" : { } } }";
 					string url = this->buildURL(index);
 					Document response;
 
