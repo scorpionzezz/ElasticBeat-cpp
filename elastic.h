@@ -122,6 +122,9 @@ namespace beat {
 						istream &is = session.receiveResponse(res);
 						string responseStr = "";
 						beat::utils::istream2string(is, responseStr);
+						// std::cout << URL << std::endl;
+						// std::cout << data << std::endl;
+						// std::cout << responseStr << std::endl;
 
 						// If there is any data, parse it
 						if (responseStr.empty() == false) {
@@ -481,9 +484,9 @@ namespace beat {
 
 						// Be careful about future breaking changes:
 						// https://www.elastic.co/blog/index-type-parent-child-join-now-future-in-elasticsearch
-						if (this->_elasticSearchVersion.empty() || this->_elasticSearchVersion[0] - '0' < 6 ) {
+						// if (this->_elasticSearchVersion.empty() || this->_elasticSearchVersion[0] - '0' < 6 ) {
 							ss << ",\"_type\":\"doc\"";
-						}
+						// }
 						ss << "}}\n" << docs[i] << '\n';
 					}
 
@@ -632,6 +635,7 @@ namespace beat {
 						if (response.HasMember("status")) {
 							ret->httpStatus = (unsigned short int)response["status"].GetUint();
 						}
+						ret->error = ss.str();
 					}
 
 					return ret;
